@@ -1,6 +1,7 @@
 # sibyl - Rapid Agile Estimations
 
 [![Build Status](https://travis-ci.org/synacor/sibyl.svg?branch=master)](https://travis-ci.org/synacor/sibyl)
+[![Go Report Card](https://goreportcard.com/badge/github.com/synacor/sibyl)](https://goreportcard.com/report/github.com/synacor/sibyl)
 
 **Sibyl** is an online agile estimation tool that doesn't require sign-ups, entering user stories, or any other time consuming steps that keeps you from doing what matters: estimating on stories.
 

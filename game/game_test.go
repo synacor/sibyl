@@ -22,7 +22,7 @@ func TestGame(t *testing.T) {
 	assert.Nil(t, g)
 	assert.Equal(t, ErrInvalidRoomName, err)
 
-	g, err = New("Test Room", "bad", nil)
+	g, _ = New("Test Room", "bad", nil)
 	assert.Equal(t, "Test Room", g.Room)
 	assert.Equal(t, 40, len(g.Token))
 	assert.Equal(t, deck.ModifiedFibonacci, g.Deck())
@@ -78,8 +78,8 @@ func TestAddCard(t *testing.T) {
 	sort.Sort(byID(u.Cards))
 
 	assert.Equal(t, []*wsCard{
-		&wsCard{1, 1, ""},
-		&wsCard{2, 2, ""},
+		{1, 1, ""},
+		{2, 2, ""},
 	}, u.Cards)
 
 	assert.Equal(t, false, u.Reset)
@@ -147,9 +147,9 @@ func TestReset(t *testing.T) {
 	assert.Equal(t, false, u1.Reset)
 	sort.Sort(byID(u1.Cards))
 	assert.Equal(t, []*wsCard{
-		&wsCard{0, 1, ""},
-		&wsCard{1, 2, ""},
-		&wsCard{2, 3, ""},
+		{0, 1, ""},
+		{1, 2, ""},
+		{2, 3, ""},
 	}, u1.Cards)
 
 	u2 := c1.send[1].(wsUpdate)
