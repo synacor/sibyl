@@ -1,0 +1,32 @@
+{{ define "content" }}
+<section class="index">
+    <section class="welcome">
+        <div class="block">
+            <p class="hero"><span class="rapid">Rapid</span> Agile Estimations</p>
+
+            <p class="about">Your user stories already exist in a backlog, so why enter them yet again into another tool? <strong>Sibyl</strong> is different. No sign-ups, no long forms asking for user stories, just create a room and start estimating!</p>
+        </div>
+    </section>
+
+    {{ if .Error }}
+    <section class="invalid">
+        <div class="block">
+            <p class="invalid">{{ .Error }}</p>
+        </div>
+    </section>
+    {{ end }}
+
+    <fieldset>
+        <div class="block">
+            <form id="create-room" method="post" action="/create">
+                <input type="text" id="room" name="room" maxlength={{ .RoomNameMaxLength }} placeholder="enter room name...">
+                <input type="hidden" id="deck" name="deck">
+            </form>
+        </div>
+    </fieldset>
+</section>
+{{ end }}
+
+{{ define "javascript" }}
+<script src="/static/javascripts/index.js"></script>
+{{ end }}

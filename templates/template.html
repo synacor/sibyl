@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sibyl - Rapid Agile Estimations</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Mono:300" rel="stylesheet">
+    <link rel="stylesheet" href="/static/stylesheets/styles.css">
+</head>
+<body>
+    <header>
+        <div class="block">
+            <p><a href="/"><img src="/static/images/logo.png" alt=""></a></p>
+
+            <h1><a href="/">Sibyl</a></h1>
+        </div>
+    </header>
+    <main>
+        {{ template "content" . }}
+    </main>
+    <footer>
+        <div class="block">
+            <p class="built-by"><a href="https://synacor.com">Built by <img src="/static/images/synacor-gray.svg" alt="Synacor, Inc."></a></p>
+        </div>
+    </footer>
+
+    {{ template "javascript" . }}
+</body>
+</html>

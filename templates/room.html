@@ -1,0 +1,72 @@
+{{ define "content" }}
+<section class="room">
+    <section class="notifications">
+        <div class="block">
+            <p>You are in the room <strong class="room">{{ .Room }}</strong>. You can copy the link by <a href="#" id="copy-url">clicking here</a>. Your name is <span class="current-username-wrapper"><span id="current-username"></span></span>.</p>
+        </div>
+    </section>
+
+    <section class="game">
+        <section class="topic">
+            <div class="block">
+                <h2 id="topic">The Topic</h2>
+            </div>
+        </section>
+        <section class="community">
+            <div class="block">
+                <h3>Community Cards</h3>
+
+                <div id="cards"></div>
+            </div>
+        </section>
+
+        <div class="block">
+            <div class="commands">
+                <div class="controls">
+                    <a href="#" id="reveal">Reveal</a>
+                    <a href="#" id="reset">Reset</a>
+                </div>
+            </div>
+        </div>
+
+        <section class="my-hand">
+            <div class="block">
+                <h3>My Hand</h3>
+
+                <div id="my-hand">
+                </div>
+
+                <div class="decks">
+                    <span>Choose Deck:</span>
+
+                    <ul>
+                    {{ range .Decks }}
+                        <li><a href="#" data-name="{{ . }}">{{ . }}</a></li>
+                    {{ end }}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </section>
+    <section class="console">
+        <div class="block">
+            Connecting to server...
+        </div>
+    </section>
+</section>
+{{ end }}
+
+
+{{ define "javascript" }}
+<script>
+var SibylConfig = {
+    Token: {{ .Token }},
+    Room: {{ .Room }},
+    Decks: {{ .DecksJSON }},
+    TopicMaxLength: {{ .TopicMaxLength }},
+    UsernameMaxLength: {{ .UsernameMaxLength }}
+}
+</script>
+<script src="//code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="/static/javascripts/room.js"></script>
+{{ end }}

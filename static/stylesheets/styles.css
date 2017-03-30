@@ -1,0 +1,411 @@
+* {
+    box-sizing: border-box;
+    outline: none;
+}
+html {
+    font: 1em 'Lato', sans-serif;
+}
+form {
+    display: inline;
+}
+
+body {
+    background-color: #f3f3f3;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: #09c;
+}
+a:hover {
+    color: #2ecc71;
+}
+
+header {
+    background-color: #272727;
+    height: 118px;
+}
+
+main {
+    background-color: #fff;
+    padding: 15px 0 100px 0;
+}
+
+footer {
+    color: #888;
+    font-size: 0.8em;
+    padding: 25px 0;
+}
+footer div.block {
+    margin: 0 auto;
+    padding: 0;
+    text-align: center;
+}
+footer p {
+    display: inline-block;
+    height: 18px;
+    line-height: 18px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+}
+footer p.built-by img {
+    display: inline-block;
+    height: 18px;
+    padding-left: 5px;
+    position: relative;
+    top: -1px;
+    vertical-align: middle;
+}
+footer a {
+    color: #888;
+    text-decoration: none;
+}
+footer a:hover {
+    color: #2ecc71;
+}
+
+div.block {
+    padding: 0 15px;
+}
+
+header p {
+    margin: 0;
+    padding-top: 18px;
+}
+
+p, h1, h2, h3, h4, h5 {
+    margin: 0 0 15px 0;
+}
+
+.topic h2 {
+    border: 2px solid transparent;
+    border-style: inset;
+    border-bottom: 2px dotted #aaa;
+    float: left;
+    font-size: 1.5em;
+    margin: 0;
+}
+.topic h2:hover {
+    background-color: white;
+    user-select: text;
+    cursor: auto;
+    border: 1px solid #ccc;
+    padding: 1px;
+}
+header h1 {
+    display: none;
+    margin: 0;
+}
+
+.game {
+    display: none;
+}
+section.community {
+    margin-top: 15px;
+}
+section.community div.block::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+.community {
+    background-color: #2ecc71;
+    color: #fff;
+    padding: 10px 0 5px; /* using 5px on bottom; card has bottom margin */
+}
+.community p {
+    margin: 0;
+}
+
+#cards {
+    min-height: 160px;
+}
+#cards::after {
+    clear: both;
+    content: '';
+    display: block;
+}
+div.card {
+    display: inline-block;
+    text-align: center;
+    margin-bottom: 5px;
+    margin-right: 5px;
+    width: 100px;
+}
+span.player-name {
+    color: #000;
+    display: inline-block;
+    font-size: 0.8em;
+    opacity: 0.6;
+    overflow: hidden;
+    vertical-align: top;
+    width: 100px;
+}
+span.card {
+    background-color: #c10;
+    background: url(/static/images/synacor-bg.png), linear-gradient(#c10, #910);
+    border-radius: 5px;
+    color: #333;
+    display: block;
+    font-size: 3em;
+    font-weight: bold;
+    height: 155px;
+    line-height: 155px;
+    text-align: center;
+    text-indent: -10000px;
+    width: 100px;
+}
+span.card:last-child {
+    margin-right: 0px;
+}
+
+span.card-flipped {
+    background-color: #eee;
+    background: linear-gradient(rgb(233,235,234), rgb(222,225,224));
+    text-indent: 0;
+}
+
+span.card-blank {
+    background: rgb(53, 176, 102);
+    font-size: 8em;
+    color: rgba(0,0,0,0.05);
+    text-indent: 0;
+    text-shadow: none;
+}
+
+.my-hand {
+    margin-top: 15px;
+}
+#my-hand span.card {
+    font-size: 1.5em;
+    height: 77px;
+    line-height: 77px;
+    width: 50px;
+}
+#my-hand a{
+    color: #000;
+    float: left;
+    display: inline-block;
+    height: 77px;
+    width: 50px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    text-decoration: none;
+}
+#my-hand a:last-child {
+    margin-right: 0;
+}
+
+#my-hand:after {
+    content: '';
+    display: block;
+    clear: both;
+}
+
+#my-hand a span {
+    position: relative;
+    top: 0;
+    transition: top 0.1s;
+}
+#my-hand a:hover span {
+    top: -8px;
+}
+#my-hand a.chosen:hover span {
+    box-shadow: 0px 0px 3px 3px rgba(46, 204, 133, 1);
+    cursor: default;
+    top: 0;
+}
+#my-hand a.chosen span {
+    box-shadow: 0px 0px 3px 3px rgba(46, 204, 133, 1);
+}
+.commands {
+    float: right;
+}
+.commands div.controls {
+    float: left;
+}
+.commands span {
+    color: #888;
+    float: left;
+}
+.commands a {
+    text-decoration: none;
+    margin-left: 10px;
+    float: left;
+}
+
+#reveal, #reset {
+    font-size: 1.2em;
+}
+#reveal:before {
+    font-size: 0.85em;
+    content: '✓ ';
+}
+#reset:before {
+    font-size: 0.85em;
+    content: '↻ ';
+}
+.decks {
+    margin-top: 15px;
+}
+.console {
+    background-color: #2ecc71;
+    color: #272727;
+    font: 1em 'Roboto Mono', monospace;
+    padding: 10px;
+}
+.console a {
+    color: #000;
+}
+.console a:hover {
+    color: #09c;
+}
+strong.room {
+    background-color: #ddd;
+    border: 1px solid #aaa;
+    border-radius: 2px;
+    padding: 1px 2px;
+    margin: -1px 0;
+    display: inline-block;
+    color: #000;
+}
+
+fieldset {
+    background-color: #2ecc71;
+    border: 0;
+    padding: 25px 10px;
+    text-align: center;
+}
+
+section.index input {
+    font: 2em 'Lato', sans-serif;
+}
+
+div.message {
+    background-color: #09c;
+    border-radius: 5px;
+    color: #fff;
+    padding: 3px;
+    float: left;
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+p.invalid {
+    color: #c10;
+    text-align: center;
+}
+
+section.welcome {
+    margin: 30px 0 50px;
+}
+p.hero {
+    font-size: 1.6em;
+    margin: 0 0 5px 0;
+}
+p.about {
+    margin: 0;
+    line-height: 1.3em;
+}
+p.hero span.rapid {
+    color: #2ecc71;
+    font-style: italic;
+}
+section.topic div.block:after {
+    display: block;
+    content: '';
+    clear: both;
+}
+input.topic-edit, input.current-username-edit {
+    background-color: white;
+    border: 1px solid #ccc;
+    cursor: auto;
+    font: bold 1.5em 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    padding: 1px;
+    user-select: text;
+    width: 100%;
+}
+
+input.current-username-edit {
+    font-size: 1em;
+    width: auto;
+}
+#current-username {
+    display: inline-block;
+    border: 2px solid transparent;
+    border-style: inset;
+    border-bottom: 2px dotted #aaa;
+    font-weight: bold;
+    margin: 0;
+}
+#current-username:hover {
+    background-color: white;
+    user-select: text;
+    cursor: auto;
+    border: 1px solid #ccc;
+    padding: 1px;
+}
+.topic h2:hover,
+#current-username:hover {
+    position: relative;
+}
+.topic h2:hover:after,
+#current-username:hover:after {
+    background-color: #eee;
+    border: 1px solid #ccc;
+    content: '✎';
+    font-size: 0.8em;
+    height: 0.8em;
+    line-height: 0.8em;
+    padding: 2px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 0.8em;
+
+    border-right-width: 0;
+    border-top-width: 0;
+}
+
+@media only screen and (max-width: 799px) {
+    section.index input {
+        width: 100%;
+    }
+}
+
+@media only screen and (min-width: 800px) {
+    p.hero {
+        font-size: 3em;
+        margin: 0 0 15px 0;
+    }
+    p.about {
+        margin: 0;
+        line-height: 1.3em;
+    }
+    p.hero span.rapid {
+        color: #2ecc71;
+        font-style: italic;
+    }
+    div.block {
+        padding: 0 25px;
+    }
+    section.welcome {
+        margin: 90px 0 110px;
+    }
+    fieldset {
+        margin: 0 -25px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    div.block {
+        margin: 0 auto;
+        width: 1200px;
+    }
+}
