@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 
+	rice "github.com/GeertJohan/go.rice"
 	"github.com/gorilla/handlers"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -37,10 +38,12 @@ func main() {
 			panic(err)
 		}
 	}
-
 	configureLogger()
 
-	s = server.New()
+	tbox := rice.MustFindBox("templates")
+	sbox := rice.MustFindBox("static")
+
+	s = server.New(tbox, sbox)
 	mux := s.ServeMux()
 
 	done := make(chan bool, 1)

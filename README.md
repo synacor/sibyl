@@ -9,29 +9,42 @@ This repo contains both the back-end and front-end code for running Sibyl.
 
 ## Getting started
 
+### Get Sibyl
+
 To get **sibyl**:
 
 ```
-git clone git@github.com:synacor/sibyl.git $GOPATH/src/github.com/synacor/sibyl
+% go get github.com/synacor/sibyl
 ```
 
-## Build
+### Run Sibyl
+
+As long as `$GOPATH/bin` is in your `$PATH`, you can now run `sibyl`.
 
 ```
-go install github.com/synacor/sibyl
+% sibyl
 ```
 
-## Run Sibyl
+### Build Sibyl for Distribution
 
-You can run `sibyl` right from the `github.com/synacor/sibyl` repository.
+**Sibyl** uses the [rice.go](https://github.com/GeertJohan/go.rice) package to bundle in the templates and that static directory. When running on your local server, it will automatically pull it from the installed directory. If you
+want to distribute your binary to other servers, you'll want to bundle up those assets. First, you'll need to install the `rice` command.
 
 ```
-sibyl
+% go get github.com/GeertJohan/go.rice/rice
 ```
 
-Note: If you run the `sibyl` command from a location other than `github.com/synacor/sibyl`, make sure you include configuration to specify the `templates_dir` and `static_dir` paths. See **Configuration** for more details.
+Now you can bundle up the assets in the binary.
 
-### Configuration
+```
+% cd $GOPATH/src/github.com/synacor/sibyl
+% go build
+% rice append --exec sibyl
+```
+
+The binary `./sibyl` can now be distributed.
+
+## Configuration
 
 Sibyl uses [viper](https://github.com/spf13/viper) for configuration. The following environment variales are supported:
 
@@ -39,6 +52,7 @@ Sibyl uses [viper](https://github.com/spf13/viper) for configuration. The follow
 * `SIBYL_DEBUG`: Outputs additional log details.
 
 Extended configuration can be supplied by created a `config.json` file in either of the following two locations:
+
 * `./config.json`
 * `/etc/sibyl/config.json`
 
@@ -52,9 +66,7 @@ The following example JSON file contains all the options and their defaults:
     "tls_port": 0,
     "force_tls": false,
     "tls_private_key": "",
-    "tls_public_key": "",
-    "templates_dir": "./templates",
-    "static_dir": "./static"
+    "tls_public_key": ""
 }
 ```
 
@@ -63,8 +75,6 @@ The following example JSON file contains all the options and their defaults:
 * `force_tls`: If using TLS, redirect non-TLS traffic to use TLS with a permanent redirect.
 * `tls_private_key`: Path to the private key file.
 * `tls_public_key`: Path to the public key file.
-* `templates_dir`: Path to the directory containing the templates.
-* `static_dir`: Path to the directory containing the static files.
 
 ## Known Issues
 

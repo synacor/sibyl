@@ -13,7 +13,9 @@ import (
 	"strings"
 	"sync"
 	"syscall"
+	"time"
 
+	rice "github.com/GeertJohan/go.rice"
 	log "github.com/sirupsen/logrus"
 
 	"github.com/gorilla/websocket"
@@ -21,9 +23,6 @@ import (
 	"github.com/synacor/sibyl/deck"
 	"github.com/synacor/sibyl/game"
 )
-
-const defaultTemplatesDir = "./templates"
-const defaultStaticDir = "./static"
 
 // WsRequestAction is a type for representing a web socket action
 type WsRequestAction string
@@ -55,17 +54,11 @@ type safeGames struct {
 
 // Server is the main object that can be used to return an *http.ServeMux object.
 type Server struct {
-	templatesDir string
-	staticDir    string
-	templates    map[string]*template.Template
-	debug        bool
-	destroyGame  chan *game.Game
-	safeGames    *safeGames
-}
-
-type templateLoader struct {
-	templatesDir string
-	baseTemplate *template.Template
+	staticBox   *rice.Box
+	templates   map[string]*template.Template
+	debug       bool
+	destroyGame chan *game.Game
+	safeGames   *safeGames
 }
 
 var upgrader = websocket.Upgrader{
@@ -90,28 +83,24 @@ type roomTemplateValues struct {
 }
 
 func init() {
-	viper.SetDefault("templates_dir", defaultTemplatesDir)
-	viper.SetDefault("static_dir", defaultStaticDir)
 	viper.BindEnv("debug")
 }
 
 // New returns a new *Server object
-func New() *Server {
-	templatesDir := viper.GetString("templates_dir")
-	t := newTemplateLoader(templatesDir, "template.html")
+func New(templatesBox, staticBox *rice.Box) *Server {
+	base := template.Must(template.New("").Parse(templatesBox.MustString("template.html")))
 	c := &Server{
+		staticBox: staticBox,
 		safeGames: &safeGames{
 			games: make(map[string]*game.Game),
 			mutex: &sync.RWMutex{},
 		},
 		destroyGame: make(chan *game.Game),
 
-		templatesDir: templatesDir,
-		staticDir:    viper.GetString("static_dir"),
-		debug:        viper.GetBool("debug"),
+		debug: viper.GetBool("debug"),
 		templates: map[string]*template.Template{
-			"index": t.loadTemplate("index.html"),
-			"room":  t.loadTemplate("room.html"),
+			"index": template.Must(template.Must(base.Clone()).Parse(templatesBox.MustString("index.html"))),
+			"room":  template.Must(template.Must(base.Clone()).Parse(templatesBox.MustString("room.html"))),
 		},
 	}
 
@@ -125,9 +114,21 @@ func (s *Server) ServeMux() *http.ServeMux {
 	m.HandleFunc("/r/", s.roomHandler)
 	m.HandleFunc("/ws", s.wsHandler)
 	m.HandleFunc("/create", s.createRoomHandler)
-	m.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir(s.staticDir))))
+	m.Handle("/static/", http.StripPrefix("/static/", http.FileServer(s.staticBox.HTTPBox())))
 	m.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, s.staticDir+"/favicon.ico")
+		file, err := s.staticBox.Open("favicon.ico")
+		if err != nil {
+			http.NotFound(w, r)
+			return
+		}
+		defer file.Close()
+
+		var modTime time.Time
+		if stat, _ := file.Stat(); stat != nil {
+			modTime = stat.ModTime()
+		}
+
+		http.ServeContent(w, r, "favicon.ico", modTime, file)
 	})
 
 	return m
@@ -184,7 +185,7 @@ func (s *Server) indexHandler(w http.ResponseWriter, r *http.Request) {
 		values.Error = fmt.Sprintf("We could not complete your request at this time.")
 	}
 
-	s.templates["index"].ExecuteTemplate(w, "template.html", &values)
+	s.templates["index"].Execute(w, &values)
 }
 
 // wsHandler handles requests to /ws
@@ -250,7 +251,7 @@ func (s *Server) roomHandler(w http.ResponseWriter, r *http.Request) {
 		TopicMaxLength:    game.TopicMaxLength,
 		UsernameMaxLength: UsernameMaxLength,
 	}
-	s.templates["room"].ExecuteTemplate(w, "template.html", &values)
+	s.templates["room"].Execute(w, &values)
 }
 
 func (s *Server) getGameByRoom(room string) *game.Game {
@@ -364,19 +365,4 @@ func (s *Server) ListenForEvents(done chan bool) {
 			}
 		}
 	}
-}
-
-func newTemplateLoader(templatesDir, baseTemplate string) *templateLoader {
-	base := template.Must(template.ParseFiles(fmt.Sprintf("%s/%s", templatesDir, baseTemplate)))
-
-	return &templateLoader{templatesDir, base}
-}
-
-func (t *templateLoader) loadTemplate(files ...string) *template.Template {
-	paths := make([]string, len(files))
-	for i, file := range files {
-		paths[i] = fmt.Sprintf("%s/%s", t.templatesDir, file)
-	}
-
-	return template.Must(template.Must(t.baseTemplate.Clone()).ParseFiles(paths...))
 }
