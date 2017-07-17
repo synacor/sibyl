@@ -11,6 +11,6 @@ func TestGenerate(t *testing.T) {
 	// manually set the seed so we get a consistent result
 	rnd = rand.New(rand.NewSource(3))
 
-	assert.Equal(t, "Chilly Butterfly", Generate())
-	assert.Equal(t, "Petite Penguin", Generate())
+	assert.Equal(t, "Clean Butterfly", Generate())
+	assert.Equal(t, "Lively Penguin", Generate())
 }
