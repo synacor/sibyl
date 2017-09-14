@@ -21,11 +21,14 @@ var Fibonacci = &Deck{"Fibonacci", []string{"0", "1", "2", "3", "5", "8", "13", 
 // TShirtSizes uses a number of shirt sizes for estimates.
 var TShirtSizes = &Deck{"T-Shirt Sizes", []string{"XS", "S", "M", "L", "XL", "?", "☕"}}
 
+var Hours = &Deck{"Hours", []string{"0", ".5", "1", "2", "4", "8", "12", "16", "20", "24", "?", "☕"}}
+
 // AllDecks contains a mapping of deck names to decks
 var AllDecks = map[string]*Deck{
 	ModifiedFibonacci.Name: ModifiedFibonacci,
 	Fibonacci.Name:         Fibonacci,
 	TShirtSizes.Name:       TShirtSizes,
+	Hours.Name:             Hours,
 }
 
 // GetCard returns the card for the specified index.

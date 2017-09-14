@@ -32,6 +32,9 @@ func TestSpotCheck(t *testing.T) {
 
 	c, _ = TShirtSizes.GetCard(0)
 	assert.Equal(t, "XS", c)
+
+	c, _ = Hours.GetCard(1)
+	assert.Equal(t, ".5", c)
 }
 
 func TestAllDecks(t *testing.T) {
