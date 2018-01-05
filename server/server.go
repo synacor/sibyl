@@ -69,6 +69,7 @@ var upgrader = websocket.Upgrader{
 type indexTemplateValues struct {
 	RoomNameMaxLength int
 	Error             string
+	NotFoundRoom      string
 }
 
 type roomTemplateValues struct {
@@ -180,7 +181,8 @@ func (s *Server) indexHandler(w http.ResponseWriter, r *http.Request) {
 	if _, hasInvalid := r.Form["invalid"]; hasInvalid {
 		values.Error = fmt.Sprintf("Invalid room name. %s", game.RoomNameValidDescription)
 	} else if room := r.FormValue("notfound"); room != "" {
-		values.Error = fmt.Sprintf("A room with the name \"%s\" was not found. Create it using the form below!", room)
+		// we'll present a quick create button for the user
+		values.NotFoundRoom = room
 	} else if _, hasError := r.Form["error"]; hasError {
 		values.Error = fmt.Sprintf("We could not complete your request at this time.")
 	}

@@ -16,6 +16,17 @@
     </section>
     {{ end }}
 
+    {{ if .NotFoundRoom }}
+    <section class="invalid">
+        <div class="block">
+            <form id="create-room-quick" method="post" action="/create">
+                <input type="hidden" name="room" value="{{ .NotFoundRoom }}">
+                <p class="invalid">A room with the name "{{ .NotFoundRoom }}" was not found. You can <a href="#">create the room</a> or create your own by using the form below.
+            </form>
+        </div>
+    </section>
+    {{ end }}
+
     <fieldset>
         <div class="block">
             <form id="create-room" method="post" action="/create">
