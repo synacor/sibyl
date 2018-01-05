@@ -63,6 +63,8 @@ The following example JSON file contains all the options and their defaults:
 
 ```
 {
+    "debug": false,
+    "log_level": "INFO",
     "port": 5000,
     "tls_port": 0,
     "force_tls": false,
@@ -71,6 +73,8 @@ The following example JSON file contains all the options and their defaults:
 }
 ```
 
+* `debug`: Output additional debugging information to STDERR.
+* `log_level`: Specifies what level of logging should be outputted to STDERR. If `debug` is on, you probably want this to `DEBUG`.
 * `port`: The port to use for HTTP (non-TLS) traffic.
 * `tls_port`: The port to use for HTTPS (TLS) traffic. Will only turn on TLS support if specified. If you use this option, you need to also specify `tls_private_key` and `tls_public_key`.
 * `force_tls`: If using TLS, redirect non-TLS traffic to use TLS with a permanent redirect.
