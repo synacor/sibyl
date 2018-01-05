@@ -86,7 +86,7 @@ func serve(mux *http.ServeMux) {
 			pstr := fmt.Sprintf(":%d", tlsPort)
 			log.WithFields(log.Fields{"pid": os.Getpid()}).Printf("Listening on %s", pstr)
 
-			log.Fatal(http.ListenAndServeTLS(pstr, tlsPublicKeyFile, tlsPrivateKeyFile, mux))
+			log.Fatal(http.ListenAndServeTLS(pstr, tlsPublicKeyFile, tlsPrivateKeyFile, handlers.CombinedLoggingHandler(os.Stdout, mux)))
 		}()
 	}
 
