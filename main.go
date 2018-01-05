@@ -28,6 +28,7 @@ func main() {
 	viper.AddConfigPath("/etc/sibyl")
 	viper.SetEnvPrefix("sibyl")
 	viper.BindEnv("port")
+	viper.BindEnv("tls_port")
 	viper.BindEnv("log_level")
 	viper.SetDefault("log_level", "info")
 	viper.SetDefault("port", defaultPort)

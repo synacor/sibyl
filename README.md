@@ -49,6 +49,7 @@ The binary `./sibyl` can now be distributed.
 Sibyl uses [viper](https://github.com/spf13/viper) for configuration. The following environment variales are supported:
 
 * `SIBYL_PORT`: Specify the port to run sibyl on. Defaults to `5000`.
+* `SIBYL_TLS_PORT`: Specify the TLS port to run sibyl on. By default, Sibyl does not use TLS.
 * `SIBYL_DEBUG`: Outputs additional log details.
 
 Extended configuration can be supplied by created a `config.json` file in either of the following two locations:
