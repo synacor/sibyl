@@ -14,6 +14,8 @@ var Sibyl = function() {
     this.token = SibylConfig.Token
     this.topic = null
     this.lastConnectAttempt = 0
+	this.username = this.getItem("username") || ""
+	this.rememberUsername = !!this.getItem("remember-username")
 
     this.connectToWebSocket()
     this.setupBindings()
@@ -24,7 +26,19 @@ Sibyl.prototype.setupBindings = function() {
         $cards = $("#cards"),
         $topic = $("#topic"),
         $currentUser = $("#current-username"),
-        $currentUser = $("#current-username")
+		$rememberUser = $("#remember-username")
+
+		$rememberUser.prop("checked", this.rememberUsername)
+		$rememberUser.click(function(e) {
+			this.rememberUsername = this.checked
+			if (this.checked) {
+				self.storeItem("remember-username", true)
+				self.storeItem("username", self.username)
+			} else {
+				self.removeItem("remember-username")
+				self.removeItem("username")
+			}
+		})
 
         $("#room-url").html(document.location.href)
         $("#copy-url").click(function(e) {
@@ -140,6 +154,10 @@ Sibyl.prototype.updateBoard = function(data) {
     this.username = data.username
     $username.text(this.username)
 
+	if (this.rememberUsername) {
+		this.storeItem("username", this.username)
+	}
+
     this.topic = data.topic
     $topic.text(this.topic)
 
@@ -227,7 +245,7 @@ Sibyl.prototype.updateBoard = function(data) {
 
 Sibyl.prototype.connectToWebSocket = function(isRetry) {
     var self = this,
-        url = (window.location.protocol == "https:" ? "wss://" : "ws://") + window.location.host + "/ws?room=" + encodeURIComponent(this.room) + "&token=" + encodeURIComponent(this.token),
+        url = (window.location.protocol == "https:" ? "wss://" : "ws://") + window.location.host + "/ws?room=" + encodeURIComponent(this.room) + "&token=" + encodeURIComponent(this.token) + "&username=" + encodeURIComponent(this.username),
         conn = new WebSocket(url),
         isOpen = false
 
@@ -320,11 +338,29 @@ Sibyl.prototype.send = function(action, opts) {
     }))
 }
 
+Sibyl.prototype.getItem = function(key) {
+	var value = null
+
+	if (typeof(localStorage) !== "undefined") {
+		try { value = localStorage.getItem(key) }
+		catch (e) { }
+	}
+
+	return value
+}
+
 Sibyl.prototype.storeItem = function(key, value) {
     if (typeof(localStorage) !== "undefined") {
         try { localStorage.setItem(key, value) }
         catch (e) { }
     }
+}
+
+Sibyl.prototype.removeItem = function(key) {
+	if (typeof(localStorage) !== "undefined") {
+		try { localStorage.removeItem(key) }
+		catch (e) { }
+	}
 }
 
 $(function() {

@@ -194,6 +194,7 @@ func (s *Server) indexHandler(w http.ResponseWriter, r *http.Request) {
 func (s *Server) wsHandler(w http.ResponseWriter, r *http.Request) {
 	room := r.FormValue("room")
 	token := r.FormValue("token")
+	username := r.FormValue("username")
 
 	g := s.getGameByRoom(room)
 	if g == nil {
@@ -212,7 +213,7 @@ func (s *Server) wsHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	client := NewClient(g, conn, g.NextClientID())
+	client := NewClient(g, conn, g.NextClientID(), username)
 	g.RegisterClient(client)
 	defer func() {
 		g.UnregisterClient(client)

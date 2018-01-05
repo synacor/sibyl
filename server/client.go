@@ -63,14 +63,18 @@ type Client struct {
 }
 
 // NewClient instantiates a new client object.
-func NewClient(game *game.Game, conn WsConn, id int) *Client {
+func NewClient(game *game.Game, conn WsConn, id int, uname string) *Client {
+	if uname == "" {
+		uname = name.Generate()
+	}
+
 	return &Client{
 		Game: game,
 		send: make(chan interface{}, 256),
 		Conn: conn,
 		safeIdentifier: safeIdentifier{
 			id:   id,
-			name: name.Generate(),
+			name: uname,
 		},
 	}
 }

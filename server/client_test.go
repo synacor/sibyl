@@ -14,7 +14,7 @@ var panicError string
 
 func TestSendAndClose(t *testing.T) {
 	g, _ := game.New("Test", "", nil)
-	c := NewClient(g, nil, 1)
+	c := NewClient(g, nil, 1, "")
 	c.Send("Test")
 	a := <-c.send
 	assert.Equal(t, "Test", a.(string))
@@ -27,12 +27,12 @@ func TestSendAndClose(t *testing.T) {
 }
 
 func TestID(t *testing.T) {
-	c := NewClient(&game.Game{}, newWsConn(), 5)
+	c := NewClient(&game.Game{}, newWsConn(), 5, "")
 	assert.Equal(t, 5, c.ID())
 }
 
 func TestName(t *testing.T) {
-	c := NewClient(&game.Game{}, newWsConn(), 5)
+	c := NewClient(&game.Game{}, newWsConn(), 5, "")
 	s := strings.Split(c.Name(), " ")
 	assert.Equal(t, 2, len(s))
 	assert.Regexp(t, `^[A-Z][a-z]+\z`, s[0])
@@ -56,19 +56,24 @@ func TestName(t *testing.T) {
 	assert.Equal(t, ErrInvalidUsername, err)
 }
 
+func TestProvidedName(t *testing.T) {
+	c := NewClient(&game.Game{}, newWsConn(), 5, "My Test")
+	assert.Equal(t, "My Test", c.Name())
+}
+
 func TestRemoteAddr(t *testing.T) {
 	conn := newWsConn()
 	conn.addr = &addr{"1.2.3.4"}
 	g, _ := game.New("Test", "", nil)
 
-	c := NewClient(g, conn, 1)
+	c := NewClient(g, conn, 1, "")
 	assert.Equal(t, "1.2.3.4", c.RemoteAddr())
 }
 
 func TestWritePump(t *testing.T) {
 	g, _ := game.New("Test", "", nil)
 	conn := newWsConn()
-	c := NewClient(g, conn, 1)
+	c := NewClient(g, conn, 1, "")
 
 	go func() {
 		c.send <- "Test"
