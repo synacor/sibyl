@@ -7,6 +7,8 @@
 
 This repo contains both the back-end and front-end code for running Sibyl.
 
+![Sibyl Screenshot](resources/sibyl-screenshot.png)
+
 ## Getting started
 
 ### Get Sibyl
