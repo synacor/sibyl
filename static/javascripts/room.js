@@ -17,6 +17,12 @@ var Sibyl = function() {
 	this.username = this.getItem("username") || ""
 	this.rememberUsername = !!this.getItem("remember-username")
 
+    // ensure a consistent state (side effect from chrome when opening multiple tabs)
+    if (!this.rememberUsername) {
+        this.username = ""
+        this.removeItem("username")
+    }
+
     this.connectToWebSocket()
     this.setupBindings()
 }
