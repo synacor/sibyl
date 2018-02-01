@@ -59,6 +59,11 @@ footer p.built-by img {
     top: -1px;
     vertical-align: middle;
 }
+footer p.version {
+    padding-right: 8px;
+    margin-right: 8px;
+    border-right: 1px solid #888;
+}
 footer a {
     color: #888;
     text-decoration: none;
