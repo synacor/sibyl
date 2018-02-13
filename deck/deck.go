@@ -19,7 +19,7 @@ var ModifiedFibonacci = &Deck{"Modified Fibonacci", []string{"0", "1", "2", "3",
 var Fibonacci = &Deck{"Fibonacci", []string{"0", "1", "2", "3", "5", "8", "13", "21", "34", "55", "89", "?", "☕"}}
 
 // TShirtSizes uses a number of shirt sizes for estimates.
-var TShirtSizes = &Deck{"T-Shirt Sizes", []string{"XS", "S", "M", "L", "XL", "?", "☕"}}
+var TShirtSizes = &Deck{"T-Shirt Sizes", []string{"XS", "S", "M", "L", "XL", "XXL", "?", "☕"}}
 
 var Hours = &Deck{"Hours", []string{"0", ".5", "1", "2", "4", "8", "12", "16", "20", "24", "?", "☕"}}
 
