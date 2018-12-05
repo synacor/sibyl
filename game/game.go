@@ -11,7 +11,6 @@ import (
 	"time"
 
 	log "github.com/sirupsen/logrus"
-
 	"github.com/synacor/sibyl/deck"
 )
 
@@ -73,11 +72,17 @@ type safeClientLastID struct {
 	mutex  sync.RWMutex
 }
 
+type safeClock struct {
+	clock time.Time
+	mutex sync.RWMutex
+}
+
 // Game represents an individual estimation session game
 type Game struct {
 	safeClients safeClients
 	safeCards   safeCards
 	safeTopic   safeTopic
+	safeClock   safeClock
 
 	// Room is the name of the room
 	Room string
@@ -106,6 +111,7 @@ type wsUpdate struct {
 	Revealed bool           `json:"reveal"`
 	Reset    bool           `json:"reset"`
 	Username string         `json:"username"`
+	Elapsed  int            `json:"elapsed"`
 }
 
 // wsError is providers error information to the client
@@ -149,6 +155,9 @@ func New(room string, defaultDeck string, onComplete chan *Game) (*Game, error) 
 		safeTopic: safeTopic{
 			topic: fmt.Sprintf("%s Estimation Session", room),
 			mutex: sync.RWMutex{},
+		},
+		safeClock: safeClock{
+			clock: time.Now(),
 		},
 
 		Room:  room,
@@ -297,6 +306,10 @@ func (g *Game) updatePayload(reset bool) wsUpdate {
 	u.Reset = reset
 	g.safeCards.mutex.RUnlock()
 
+	g.safeClock.mutex.RLock()
+	u.Elapsed = int(time.Now().Sub(g.safeClock.clock).Seconds())
+	g.safeClock.mutex.RUnlock()
+
 	return u
 }
 
@@ -417,6 +430,10 @@ func (g *Game) reset() {
 	g.safeCards.reveal = false
 	g.safeCards.cards = make(map[client]int)
 	g.safeCards.mutex.Unlock()
+
+	g.safeClock.mutex.Lock()
+	g.safeClock.clock = time.Now()
+	g.safeClock.mutex.Unlock()
 }
 
 // RegisteredClientsCount returns the number of active registered clients

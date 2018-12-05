@@ -138,7 +138,14 @@ func TestReset(t *testing.T) {
 	c1 := newClientTest(1)
 	g.RegisterClient(c1)
 
+	assert.True(t, time.Now().After(g.safeClock.clock))
+	clock := g.safeClock.clock
+
 	g.Reset()
+
+	// make sure clock is updated on reset
+	assert.True(t, time.Now().After(g.safeClock.clock))
+	assert.True(t, clock.Before(g.safeClock.clock))
 
 	assert.Equal(t, 2, len(c1.send))
 

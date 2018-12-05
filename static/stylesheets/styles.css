@@ -2,6 +2,10 @@
     box-sizing: border-box;
     outline: none;
 }
+:root {
+    --light-gray: #aaa;
+    --spacing: 15px;
+}
 html {
     font: 1em 'Lato', sans-serif;
 }
@@ -29,7 +33,7 @@ header {
 
 main {
     background-color: #fff;
-    padding: 15px 0 100px 0;
+    padding: var(--spacing) 0 100px 0;
 }
 
 footer {
@@ -73,7 +77,7 @@ footer a:hover {
 }
 
 div.block {
-    padding: 0 15px;
+    padding: 0 var(--spacing);
 }
 
 header p {
@@ -82,13 +86,13 @@ header p {
 }
 
 p, h1, h2, h3, h4, h5 {
-    margin: 0 0 15px 0;
+    margin: 0 0 var(--spacing) 0;
 }
 
 .topic h2 {
     border: 2px solid transparent;
     border-style: inset;
-    border-bottom: 2px dotted #aaa;
+    border-bottom: 2px dotted var(--light-gray);
     float: left;
     font-size: 1.5em;
     margin: 0;
@@ -109,7 +113,18 @@ header h1 {
     display: none;
 }
 section.community {
-    margin-top: 15px;
+    margin-top: var(--spacing);
+}
+section.community div.block {
+    position: relative;
+}
+.clock {
+    color: rgba(0, 0, 0, 0.1);
+    font-size: 3em;
+    font-weight: bold;
+    position: absolute;
+    right: var(--spacing);
+    top: 0;
 }
 section.community div.block::after {
     clear: both;
@@ -182,7 +197,7 @@ span.card-blank {
 }
 
 .my-hand {
-    margin-top: 15px;
+    margin-top: var(--spacing);
 }
 #my-hand span.card {
     font-size: 1.5em;
@@ -254,7 +269,7 @@ span.card-blank {
     content: '↻ ';
 }
 .decks {
-    margin-top: 15px;
+    margin-top: var(--spacing);
 }
 .console {
     background-color: #2ecc71;
@@ -270,7 +285,7 @@ span.card-blank {
 }
 strong.room {
     background-color: #ddd;
-    border: 1px solid #aaa;
+    border: 1px solid var(--light-gray);
     border-radius: 2px;
     padding: 1px 2px;
     margin: -1px 0;
@@ -344,7 +359,7 @@ input.current-username-edit {
     display: inline-block;
     border: 2px solid transparent;
     border-style: inset;
-    border-bottom: 2px dotted #aaa;
+    border-bottom: 2px dotted var(--light-gray);
     font-weight: bold;
     margin: 0;
 }
@@ -387,7 +402,7 @@ input.current-username-edit {
 @media only screen and (min-width: 800px) {
     p.hero {
         font-size: 3em;
-        margin: 0 0 15px 0;
+        margin: 0 0 var(--spacing) 0;
     }
     p.about {
         margin: 0;

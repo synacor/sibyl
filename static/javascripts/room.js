@@ -16,6 +16,8 @@ var Sibyl = function() {
     this.lastConnectAttempt = 0
 	this.username = this.getItem("username") || ""
 	this.rememberUsername = !!this.getItem("remember-username")
+    this.elapsed = 0
+    this.elapseStarted = new Date()
 
     // ensure a consistent state (side effect from chrome when opening multiple tabs)
     if (!this.rememberUsername) {
@@ -25,6 +27,23 @@ var Sibyl = function() {
 
     this.connectToWebSocket()
     this.setupBindings()
+
+    setInterval(this.updateElapsed.bind(this), 20)
+}
+
+Sibyl.prototype.updateElapsed = function() {
+    if (isNaN(this.elapsed)) {
+        document.querySelector('div.clock').textContent = ''
+        return
+    }
+
+    var elapsed = this.elapsed + Math.floor((new Date() - this.elapseStarted)/1000)
+    var minutes = Math.floor(elapsed / 60)
+    var seconds = elapsed % 60
+    if (seconds < 10) {
+        seconds = '0' + seconds
+    }
+    document.querySelector('div.clock').textContent = minutes + ':' + seconds
 }
 
 Sibyl.prototype.setupBindings = function() {
@@ -156,6 +175,9 @@ Sibyl.prototype.updateBoard = function(data) {
         $span,
         $div,
         deck
+
+    this.elapseStarted = new Date()
+    this.elapsed = data.elapsed
 
     this.username = data.username
     $username.text(this.username)
