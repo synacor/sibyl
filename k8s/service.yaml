@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sibyl
+spec:
+  selector:
+    app: sibyl
+  ports:
+  - port: 80

@@ -26,7 +26,7 @@ func main() {
 	viper.SetConfigType("json")
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("/etc/sibyl")
-	viper.SetEnvPrefix("sibyl")
+	viper.SetEnvPrefix("sib")
 	viper.BindEnv("port")
 	viper.BindEnv("tls_port")
 	viper.BindEnv("log_level")

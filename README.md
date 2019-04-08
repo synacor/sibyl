@@ -50,9 +50,9 @@ The binary `./sibyl` can now be distributed.
 
 Sibyl uses [viper](https://github.com/spf13/viper) for configuration. The following environment variales are supported:
 
-* `SIBYL_PORT`: Specify the port to run sibyl on. Defaults to `5000`.
-* `SIBYL_TLS_PORT`: Specify the TLS port to run sibyl on. By default, Sibyl does not use TLS.
-* `SIBYL_DEBUG`: Outputs additional log details.
+* `SIB_PORT`: Specify the port to run sibyl on. Defaults to `5000`.
+* `SIB_TLS_PORT`: Specify the TLS port to run sibyl on. By default, Sibyl does not use TLS.
+* `SIB_DEBUG`: Outputs additional log details.
 
 Extended configuration can be supplied by created a `config.json` file in either of the following two locations:
 
@@ -85,7 +85,8 @@ The following example JSON file contains all the options and their defaults:
 
 ## Known Issues
 
-When running the server over HTTP (non-TLS), some antivirus applications that buffer http connections, such as Kaspersky, may cause the web socket connection to disconnect. The workaround is to either run the server with HTTPS, or to disable port 80 filtering in your antivirus.
+* When running the server over HTTP (non-TLS), some antivirus applications that buffer http connections, such as Kaspersky, may cause the web socket connection to disconnect. The workaround is to either run the server with HTTPS, or to disable port 80 filtering in your antivirus.
+* The app does not currently horizontally scale because everything is kept in-memory. Will need to add routing capabailities so that all rooms hit the same instance, or add pub/sub features.
 
 ## Contributing
 

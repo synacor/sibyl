@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sibyl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sibyl
+  template:
+    metadata:
+      labels:
+        app: sibyl
+    spec:
+      containers:
+      - name: sibyl
+        image: synacor/sibyl
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: config
+          mountPath: /etc/sibyl/config.json
+          subPath: config.json
+          readOnly: true
+      volumes:
+      - name: config
+        configMap:
+          name: sibyl-config

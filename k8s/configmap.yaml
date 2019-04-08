@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sibyl-config
+data:
+  config.json: |
+    {
+        "port": 80,
+        "debug": true,
+        "log_level": "DEBUG",
+        "tls_port": 0,
+        "tls_private_key": "",
+        "tls_public_key": "",
+        "force_tls": false
+    }
