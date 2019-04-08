@@ -3,3 +3,4 @@
 *.bak
 config.json
 sibyl
+coverage.out
